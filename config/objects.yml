@@ -1,0 +1,21 @@
+minilab:
+  compose: minilab_hardware, result_verifier, analog_io, digital_auxport_io, digital_port_io
+
+minilab_hardware:
+
+result_verifier:
+  compose: minilab_hardware
+
+analog_io:
+  compose: minilab_hardware, result_verifier
+
+digital_auxport_io:
+  compose: minilab_hardware, result_verifier
+
+digital_port_io:
+  compose: minilab_hardware, result_verifier, digital_configuration, library_translator
+
+library_translator:
+
+digital_configuration:
+  compose: minilab_hardware, result_verifier

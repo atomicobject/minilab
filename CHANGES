@@ -1,0 +1,7 @@
+== 1.1.0
+* Conversion from native extension to FFI
+* Upgraded diy, constructor, and hardmock to their latest versions
+* Internal implementation changes. minilab's public interface is unchanged
+
+== 1.0.0
+First release

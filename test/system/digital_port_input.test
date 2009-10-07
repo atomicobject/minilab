@@ -1,0 +1,5 @@
+configure_portb_for_input
+digital_pin_10_should_be 1
+
+configure_porta_for_input
+digital_pin_30_should_be 0

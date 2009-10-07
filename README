@@ -1,0 +1,107 @@
+== About
+
+minilab is a Ruby extension for Measurement Computing's miniLAB 1008 device. The minilab extension provides a simple interface to several of the miniLAB 1008's analog and digital IO functions. I've used the miniLAB to control the input and examine the output from our embedded devices; the minilab extension allowed us to use automated system testing tools for Ruby.
+
+minilab is not guaranteed to work with other Measurement Computing devices, but could be extended to do so.
+
+== Installation
+
+1. Install the minilab gem onto your system or unpack it into a local directory in your project. Install Measurement Computing's Universal Library and InstaCal software; both come on CDs with the device.
+
+1. Plug in the device and then fire up the InstaCal software. Go to Install -> Configure in the menus and the Custom Serial Number to 253, No. of Channels to 8 Single Ended, and Trigger Source to DIO0. Use the Flash LED button to ensure that InstaCal can communicate with the device (I've never had a problem with this). Although I don't think the Custom Serial Number and Trigger Source make much difference to my extension, the No. of Channels is important (see Known limitations below).
+
+1. That should be it---you should now be able to require 'lib/minilab,' create a minilab object, and connect to it. If you can't, please contact me! I've only installed this on a limited number of computers, so I'd like to hear about problems with the library installation, gem installation, LOAD_PATH, etc.
+
+=== Building the C extension
+I included a precompiled version of the C extension with the gem so that everyone doesn't need to worry about compiling. If you'd really like to compile it, then the Rakefile has several targets for managing the build (see extension:build, extension:clean). In order to build, there is a good chance you'll need to edit the Rakefile to use the correct paths to your build environment (they are at the bottom). Right now they're set up strictly for my laptop.
+
+== Usage
+=== Build and connect
+
+First you'll need to build the Minilab object; use the Minilab.build class method to do this. The class method is important to use instead of +new+, since it takes care of a lot of behind-the-scenes object construction for you.
+
+After building the object, use the +connect+ method. This will establish the connection to the library. None of the other methods will work until you connect.
+
+Example:
+
+<tt>minilab = Minilab.build</tt>
+
+<tt>minilab.connect</tt>
+
+=== Reading and writing data
+
+I've created methods for reading and writing both digital and analog data from the device. Analog data goes through the read and write pins on the top of the device; no configuration is needed for the analog methods.
+
+Digital data goes through either the DIO pins on the top of the device or the digital ports on the DB37 port. If you're using the DIO pins, then you don't need to do any configuration. If you're using the DB37 pins, then you'll need to configure the appropriate port for input and output. You can find a mapping of DB37 pin numbers to ports either in Measurement Computing's miniLAB 1008 data sheet or at the end of this README.
+
+Check out the read and write analog and read, write, and configure digital methods in the Minilab document for more information.
+
+Example:
+
+<tt> minilab.configure_input_port(:portb) </tt>
+
+<tt> value = minilab.read_digital_byte(:portb) </tt>
+
+<tt> assert_equal 12, value, "wrong value read for system time" </tt>
+
+The adventurous may also want to look at the included system tests for the device, since they are examples of how to use the device and are not contrived.
+
+== Tests
+
+The minilab extension comes with unit, integration, and system tests. The unit tests stress individual units. The integration and system tests represent real use cases for the software; in the case of integration tests, the hardware is mocked out whereas the hardware is not mocked during system tests. This means that unit and integration tests can be run without the hardware plugged in, but system tests require the hardware. Even though there is some overlap between integration and system tests, integration tests made it easier for me to safely develop new features without having bulky hardware plugged in all the time.
+
+See the end of the document of this document for an outline of how a miniLAB and DB37 connector should be set up in order to run the system tests.
+
+== Known limitations
+
+* The minilab extension only supports one device plugged in at a time. I could add support for multiple devices, but since I only have one, I haven't bothered adding support for more than one.
+
+* I never got around to writing out an entire digital byte because I never needed it.
+
+* Reading analog values only supports single-ended mode. As you can probably guess, I didn't need differential mode, so I didn't add support for it.
+
+In any case, contact me if you'd like me to implement any of this functionality. Add functionality yourself is always possible and may be quicker than waiting for me to do it.
+
+== Contact information
+Matt Fletcher
+
+Developer
+
+Atomic Object, LLC
+
+fletcher@atomicobject.com
+
+== Appendix
+=== DB37 pin to port mapping
+Pin:: Port
+30-37:: :porta
+3-10:: :portb
+26-29:: :portcl
+22-25:: :portch
+
+=== System test setup
+
+On top of the miniLAB:
+CH0 IN:: D/A OUT 1
+CH1 IN:: GND
+CH2 IN:: DIO0
+CH4 IN:: PC +5V
+CH6 IN:: D/A OUT 0
+DIO0:: DIO3
+DIO1:: PC +5V
+DIO2:: GND
+
+On the DB37 pins:
+3:: 11
+4:: 11
+5:: 28
+6:: 11
+7:: 36
+8:: 11
+9:: 11
+10:: 20
+22:: 27
+23:: 21
+24:: 34
+25:: 21
+30:: 21

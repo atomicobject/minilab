@@ -1,0 +1,39 @@
+# Port A --> Port B test
+configure_porta_for_output
+configure_portb_for_input
+
+write_digital_pin_36 1
+digital_pin_7_should_be 1
+
+write_digital_pin_36 0
+digital_pin_7_should_be 0
+
+# Port B --> Port CL test
+configure_portb_for_output
+configure_portcl_for_input
+
+write_digital_pin_5 0
+digital_pin_28_should_be 0
+
+write_digital_pin_5 1
+digital_pin_28_should_be 1
+
+# Port CL -> Port CH test
+configure_portcl_for_output
+configure_portch_for_input
+
+write_digital_pin_27 1
+digital_pin_22_should_be 1
+
+write_digital_pin_27 0
+digital_pin_22_should_be 0
+
+# Port CH -> Port A test
+configure_portch_for_output
+configure_porta_for_input
+
+write_digital_pin_24 0
+digital_pin_34_should_be 0
+
+write_digital_pin_24 1
+digital_pin_34_should_be 1

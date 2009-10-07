@@ -1,0 +1,38 @@
+Setting up new Minilab hardware:
+1) Get it out of the packaging.
+2) Install the Minilab software (InstaCal, universal library are most important).
+3) Plug in the Minilab
+4) Fire up the InstaCal software. Configure the board:
+   - Custom Serial No.  253
+   - No. Of Channels    8 Single Ended
+   - Trigger Source     DIO0
+   This configuration should work with the config file I have in the minilab driver
+   directories.
+5) Wire up the minilab. Use the below wiring:
+
+On top of the minilab:
+CH0 IN  <--->  D/A OUT 1
+CH1 IN  <--->  GND
+CH2 IN  <--->  DIO0
+CH4 IN  <--->  PC +5V
+CH6 IN  <--->  D/A OUT 0
+DIO0    <--->  DIO3
+DIO1    <--->  PC +5V
+DIO2    <--->  GND
+
+On the external digital IO pins:
+3  <---> 11
+4  <---> 11
+5  <---> 28
+6  <---> 11
+7  <---> 36
+8  <---> 11
+9  <---> 11
+10 <---> 20
+22 <---> 27
+23 <---> 21
+24 <---> 34
+25 <---> 21
+30 <---> 21
+
+6) Getrdone.

@@ -1,0 +1,26 @@
+configure_porta_for_output
+configure_portcl_for_output
+configure_portb_for_input
+
+                       # GND to pin 3 (portb bit 7)
+                       # GND to pin 4 (portb bit 6)
+write_digital_pin_28 1 # map to pin 5 (portb bit 5)
+                       # GND to pin 6 (portb bit 4)
+write_digital_pin_36 1 # map to pin 7 (portb bit 3)
+                       # GND to pin 8 (portb bit 2)
+                       # GND to pin 9 (portb bit 1)
+                       # +5v to pin 10 (portb bit 0)
+digital_portb_should_be 0x29
+
+
+
+configure_porta_for_output
+configure_portcl_for_output
+configure_portch_for_input
+
+write_digital_pin_27 1 # map to pin 22 (portch bit 3)
+                       # GND to pin 23 (portch bit 2)
+write_digital_pin_32 1 # map to pin 24 (portch bit 1)
+                       # GND to pin 22 (portch bit 0)
+digital_portch_should_be 0x0A
+

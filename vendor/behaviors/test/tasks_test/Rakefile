@@ -1,0 +1,16 @@
+require 'rake'
+require 'rake/testtask'
+
+APP_ROOT = File.expand_path(File.dirname(__FILE__))
+load "#{APP_ROOT}/../../tasks/behaviors_tasks.rake"
+
+cd APP_ROOT
+
+desc 'Default: run unit tests.'
+task :default => :test
+
+Rake::TestTask.new(:test) do |t|
+  t.libs << "#{APP_ROOT}/../../lib"
+  t.pattern = 'test/**/*_test.rb'
+  t.verbose = true
+end

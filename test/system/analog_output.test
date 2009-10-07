@@ -1,0 +1,37 @@
+# The sleeps are required, as it takes time for the
+# commanded voltages to reach the desired value
+
+# test analog output 1
+write_analog_1 5.0
+sleep 0.1
+analog_input_0_should_be_about 5.0
+
+write_analog_1 0.0
+sleep 0.1
+analog_input_0_should_be_about 0.0
+
+write_analog_1 2.77
+sleep 0.1
+analog_input_0_should_be_about 2.77
+
+write_analog_1 3.19
+sleep 0.1
+analog_input_0_should_be_about 3.19
+
+# test analog output 0
+write_analog_0 5.0
+sleep 0.1
+analog_input_6_should_be_about 5.0
+
+write_analog_0 0.0
+sleep 0.1
+analog_input_6_should_be_about 0.0
+
+write_analog_0 3.75
+sleep 0.1
+analog_input_6_should_be_about 3.75
+
+write_analog_0 1.88
+sleep 0.1
+analog_input_6_should_be_about 1.88
+
