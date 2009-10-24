@@ -1,6 +1,6 @@
 == About
 
-minilab is a Ruby extension for Measurement Computing's miniLAB 1008 device. The minilab extension provides a simple interface to several of the miniLAB 1008's analog and digital IO functions. I've used the miniLAB to control the input and examine the output from our embedded devices; the minilab extension allowed us to use automated system testing tools for Ruby.
+minilab is a Ruby library for Measurement Computing's miniLAB 1008 device. The minilab library provides a simple interface to several of the miniLAB 1008's analog and digital IO functions. I've used the miniLAB to control the input and examine the output from our embedded devices; the minilab library allowed us to use automated system testing tools for Ruby.
 
 minilab is not guaranteed to work with other Measurement Computing devices, but could be extended to do so.
 
@@ -8,12 +8,12 @@ minilab is not guaranteed to work with other Measurement Computing devices, but 
 
 1. Install the minilab gem onto your system or unpack it into a local directory in your project. Install Measurement Computing's Universal Library and InstaCal software; both come on CDs with the device.
 
-1. Plug in the device and then fire up the InstaCal software. Go to Install -> Configure in the menus and the Custom Serial Number to 253, No. of Channels to 8 Single Ended, and Trigger Source to DIO0. Use the Flash LED button to ensure that InstaCal can communicate with the device (I've never had a problem with this). Although I don't think the Custom Serial Number and Trigger Source make much difference to my extension, the No. of Channels is important (see Known limitations below).
+1. Plug in the device and then fire up the InstaCal software. Go to Install -> Configure in the menus and the Custom Serial Number to 253, No. of Channels to 8 Single Ended, and Trigger Source to DIO0. Use the Flash LED button to ensure that InstaCal can communicate with the device (I've never had a problem with this). Although I don't think the Custom Serial Number and Trigger Source make much difference to my library, the No. of Channels is important (see Known limitations below).
 
 1. That should be it---you should now be able to require 'lib/minilab,' create a minilab object, and connect to it. If you can't, please contact me! I've only installed this on a limited number of computers, so I'd like to hear about problems with the library installation, gem installation, LOAD_PATH, etc.
 
-=== Building the C extension
-I included a precompiled version of the C extension with the gem so that everyone doesn't need to worry about compiling. If you'd really like to compile it, then the Rakefile has several targets for managing the build (see extension:build, extension:clean). In order to build, there is a good chance you'll need to edit the Rakefile to use the correct paths to your build environment (they are at the bottom). Right now they're set up strictly for my laptop.
+=== FFI
+The minilab gem now uses FFI to communicate with the native MCC library. The previous release of this gem required a native extension, but FFI has alleviated the need for this.
 
 == Usage
 === Build and connect
@@ -48,13 +48,13 @@ The adventurous may also want to look at the included system tests for the devic
 
 == Tests
 
-The minilab extension comes with unit and system tests. The unit tests stress individual units and can run without any hardware plugged in. The system tests represent real use cases for the software when plugged into hardware.
+The minilab library comes with unit and system tests. The unit tests stress individual units and can run without any hardware plugged in. The system tests represent real use cases for the software when plugged into hardware.
 
 See the end of the document of this document for an outline of how a miniLAB and DB37 connector should be set up in order to run the system tests.
 
 == Known limitations
 
-* The minilab extension only supports one device plugged in at a time. I could add support for multiple devices, but since I only have one, I haven't bothered adding support for more than one.
+* The minilab library only supports one device plugged in at a time. I could add support for multiple devices, but since I only have one, I haven't bothered adding support for more than one.
 
 * I never got around to writing out an entire digital byte because I never needed it.
 

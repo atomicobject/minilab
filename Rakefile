@@ -60,7 +60,7 @@ namespace :doc do
   desc "Generate RDoc documentation"
   Rake::RDocTask.new do |rdoc|
     rdoc.rdoc_dir = "rdoc"
-    rdoc.title = "minilab: Ruby extension for the miniLAB 1008"
+    rdoc.title = "minilab: Ruby library for the miniLAB 1008"
     rdoc.options = rdoc_options
     rdoc.rdoc_files.include("lib/minilab.rb", "README", "CHANGES", "LICENSE")
   end
