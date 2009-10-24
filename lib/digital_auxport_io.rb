@@ -1,43 +1,31 @@
 class DigitalAuxportIo #:nodoc:
-  constructor :minilab_hardware, :result_verifier
+  constructor :minilab_wrapper
   include MinilabConstants
 
-  VALID_PINS = ['DIO0', 'DIO1', 'DIO2', 'DIO3']
+  VALID_PINS = %w[ DIO0 DIO1 DIO2 DIO3 ]
 
   def read_digital(pin)
-    check_pin_valid(pin)
-    pin = get_pin_number(pin)
+    validate_pin(pin)
+    configuration = {:direction => DIGITALIN, :pin => get_pin_number(pin)}
 
-    configuration = {:direction => DIGITALIN, :pin => pin}
-    result = @minilab_hardware.configure_auxport(configuration)
-    @result_verifier.verify(result, "configure_auxport_in")
-
-    result = @minilab_hardware.read_auxport(pin)
-    @result_verifier.verify(result, "read_auxport")
-
-    result[:value]
+    @minilab_wrapper.configure_auxport(configuration)
+    @minilab_wrapper.read_auxport(get_pin_number(pin))
   end
 
   def write_digital(pin, value)
-    check_pin_valid(pin)
-    pin = get_pin_number(pin)
-
     raise "#{value} is not a valid digital output." if (value < 0)
     value = 1 if (value > 0)
 
-    configuration = { :direction => DIGITALOUT, :pin => pin }
-    result = @minilab_hardware.configure_auxport(configuration)
-    @result_verifier.verify(result, "configure_auxport_out")
+    validate_pin(pin)
+    configuration = { :direction => DIGITALOUT, :pin => get_pin_number(pin)}
 
-    result = @minilab_hardware.write_auxport(pin, value)
-    @result_verifier.verify(result, "write_auxport")
+    @minilab_wrapper.configure_auxport(configuration)
+    @minilab_wrapper.write_auxport(get_pin_number(pin), value)
   end
 
   private
-  def check_pin_valid(pin)
-    if !VALID_PINS.include?(pin.to_s.upcase)
-      raise "#{pin} is not a valid digital IO pin"
-    end
+  def validate_pin(pin)
+    raise "#{pin} is not a valid digital IO pin" unless VALID_PINS.include?(pin.to_s.upcase)
   end
 
   def get_pin_number(pin)

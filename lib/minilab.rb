@@ -6,8 +6,7 @@ require File.expand_path(File.dirname(__FILE__)) + "/../config/environment.rb"
 # Minilab objects are not usable until they've been connected.
 class Minilab
   include MinilabConstants
-  constructor :minilab_hardware, :result_verifier, :analog_io,
-              :digital_auxport_io, :digital_port_io 
+  constructor :minilab_wrapper, :analog_io, :digital_auxport_io, :digital_port_io, :connection_state
 
   # Use this method to construct Minilab objects. The object will not yet
   # be connected to the device.
@@ -20,17 +19,10 @@ class Minilab
   #   errors to standard out instead of popping up a Windows dialog.
   # * Each of the DB37 digital ports is setup for input.
   def connect
-    result = @minilab_hardware.setup_error_handling(DONTPRINT, STOPALL)
-    @result_verifier.verify(result, "setup_error_handling")
-
-    result = @minilab_hardware.declare_revision(CURRENTREVNUM)
-    @result_verifier.verify(result, "declare_revision")
-
-    @connected = true
-
-    @digital_port_io.get_valid_ports.each do |port|
-      configure_input_port(port)
-    end
+    @minilab_wrapper.setup_error_handling(DONTPRINT, STOPALL)
+    @minilab_wrapper.declare_revision(CURRENTREVNUM)
+    @connection_state.connected = true
+    DigitalConfiguration::PORTS.each { |port| configure_input_port(port) }
   end
 
   # Read from one of the eight analog channels (0 - 7) on top of the device.
@@ -122,10 +114,6 @@ class Minilab
   end
 
   private
-  def setup
-    @connected = false
-  end
-
   def perform_digital_op(pin, op, *args)
     method = "#{op.to_s}_digital"
     case pin
@@ -137,6 +125,6 @@ class Minilab
   end
 
   def ensure_connected_to_device
-    raise "Cannot use any minilab methods without calling 'connect' first." unless @connected
+    raise "Cannot use any minilab methods without calling 'connect' first." unless @connection_state.connected?
   end
 end

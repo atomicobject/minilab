@@ -2,6 +2,7 @@
 * Conversion from native extension to FFI
 * Upgraded diy, constructor, and hardmock to their latest versions
 * Internal implementation changes. minilab's public interface is unchanged
+* Integration tests removed, as the value they provide did not outweigh the maintenance burden
 
 == 1.0.0
 First release

@@ -1,13 +1,9 @@
 class AnalogIo #:nodoc:
-  constructor :minilab_hardware, :result_verifier
+  constructor :minilab_wrapper
 
   def read_analog(channel)
     check_channel_range(channel, 0, 7)
-
-    result = @minilab_hardware.read_analog(channel)
-    @result_verifier.verify(result, "read_analog")
-
-    result[:value]
+    @minilab_wrapper.read_analog(channel)
   end
 
   def write_analog(channel, volts)
@@ -17,8 +13,7 @@ class AnalogIo #:nodoc:
       raise "#{volts} volts is out of range for this device; Only voltage between 0.0 and 5.0 is supported."
     end
 
-    result = @minilab_hardware.write_analog(channel, volts)
-    @result_verifier.verify(result, "write_analog")
+    @minilab_wrapper.write_analog(channel, volts)
   end
   
   private

@@ -4,8 +4,7 @@ class MinilabTest < Test::Unit::TestCase
   include MinilabConstants
 
   def setup
-    mox = create_mocks(:minilab_hardware, :result_verifier, :analog_io,
-                       :digital_auxport_io, :digital_port_io)
+    mox = create_mocks(:minilab_wrapper, :analog_io, :digital_auxport_io, :digital_port_io, :connection_state)
     @minilab = Minilab.new(mox)
   end
 
@@ -17,11 +16,20 @@ class MinilabTest < Test::Unit::TestCase
     end
 
     assert_not_nil minilab, "should have gotten an object"
-    assert_kind_of Minilab, minilab, "should have gotten a Minilab object"
+    assert_kind_of Minilab, minilab, "should have gotten a Minilab instance"
   end
 
   should "connect to the hardware, setup the error handling, declare the library revision, and setup the db37 ports for input" do
-    connect
+    @minilab_wrapper.expects.setup_error_handling(DONTPRINT, STOPALL)
+    @minilab_wrapper.expects.declare_revision(CURRENTREVNUM)
+    @connection_state.expects.connected=(true)
+
+    DigitalConfiguration::PORTS.each do |port|
+      @connection_state.expects.connected?.returns true
+      @digital_port_io.expects.configure_input_port(port)
+    end
+
+    @minilab.connect
   end
 
   should "bomb out if trying to use a method but haven't connected yet" do
@@ -36,94 +44,72 @@ class MinilabTest < Test::Unit::TestCase
 
   # IO tests
   should "read analog input" do
-    connect
+    @connection_state.expects.connected?.returns true
     @analog_io.expects.read_analog(4).returns(1.1)
 
     assert_equal 1.1, @minilab.read_analog(4)
   end
   
   should "write analog output" do
-    connect
+    @connection_state.expects.connected?.returns true
     @analog_io.expects.write_analog(1, 5.9).returns(true)
 
     @minilab.write_analog(1, 5.9)
   end
 
   should "read digital input from the DIO auxport terminals" do
-    connect
+    @connection_state.expects.connected?.returns true
     @digital_auxport_io.expects.read_digital('DIO1').returns(1)
 
     assert_equal 1, @minilab.read_digital('DIO1')
   end
 
   should "write digital output to the DIO auxport terminals" do
-    connect
+    @connection_state.expects.connected?.returns true
     @digital_auxport_io.expects.write_digital('DIO3', 0).returns(true)
 
     @minilab.write_digital('DIO3', 0)
   end
 
   should "use the digital port object when the pin is a numbered pin for read_digital" do
-    connect
+    @connection_state.expects.connected?.returns true
     @digital_port_io.expects.read_digital(7).returns(1)
 
     assert_equal 1, @minilab.read_digital(7)
   end
 
   should "use the digital port object when the pin is a numbered pin for write_digital" do
-    connect
+    @connection_state.expects.connected?.returns true
     @digital_port_io.expects.write_digital(2, 1).returns(:yourmom)
 
     assert_equal :yourmom, @minilab.write_digital(2, 1)
   end
 
   should "use the digital port object to read a byte from a digital port" do
-    connect
+    @connection_state.expects.connected?.returns true
     @digital_port_io.expects.read_port(:porta).returns(0x22)
     assert_equal 0x22, @minilab.read_digital_byte(:porta)
-
-    @digital_port_io.expects.read_port(:portcl).returns("monitor")
-    assert_equal "monitor", @minilab.read_digital_byte(:portcl)
   end
 
   # Configuration tests
   should "use the digital port object for configuring a port for input" do
-    connect
+    @connection_state.expects.connected?.returns true
     @digital_port_io.expects.configure_input_port(:portch).returns(true)
 
     assert @minilab.configure_input_port(:portch)
   end
   
   should "use the digital port object for configuring a port for output" do
-    connect
+    @connection_state.expects.connected?.returns true
     @digital_port_io.expects.configure_output_port(:porta).returns(true)
 
     assert @minilab.configure_output_port(:porta)
   end
 
   private
-  def connect
-    result1 = { :skype => "good" }
-    result2 = { :button => "round" }
-
-    @minilab_hardware.expects.setup_error_handling(DONTPRINT, STOPALL).returns(result1)
-    @result_verifier.expects.verify(result1, "setup_error_handling")
-
-    @minilab_hardware.expects.declare_revision(CURRENTREVNUM).returns(result2)
-    @result_verifier.expects.verify(result2, "declare_revision")
-
-    ports = [:porta, :portb, "thedude", 54]
-    @digital_port_io.expects.get_valid_ports().returns(ports)
-    ports.each do |port|
-      @digital_port_io.expects.configure_input_port(port)
-    end
-
-    @minilab.connect
-  end
-
   def assert_not_connected_error
+    @connection_state.expects.connected?.returns false
     error = "Cannot use any minilab methods without calling 'connect' first."
     assert_error(RuntimeError, error) { yield }
   end
-
 end

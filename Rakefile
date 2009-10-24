@@ -10,12 +10,6 @@ namespace :test do
     t.verbose = true
   end
 
-  desc "Run the integration tests (doesn't require hardware)"
-  Rake::TestTask.new(:integration) do |t|
-    t.pattern = "test/integration/**/*_test.rb"
-    t.verbose = true
-  end
-
   desc "Run the system tests (requires hardware)"
   task :system do
     $LOAD_PATH << "#{APP_ROOT}/vendor/systir"
@@ -27,11 +21,11 @@ namespace :test do
   end
 
   desc "Run every suite of tests"
-  task :all => [:units, :integration, :system]
+  task :all => [:units, :system]
 end
 
-desc "Run the unit and integration tests"
-task :default => %w[ test:units test:integration ]
+desc "Run the unit tests"
+task :default => %w[ test:units ]
 
 def rdoc_options
   %w[ --line-numbers --inline-source --main README --title minilab ]
@@ -48,7 +42,7 @@ gem_spec = Gem::Specification.new do |spec|
   spec.summary = "Ruby interface to Measurement Computing's miniLAB 1008"
   spec.files = FileList["{lib,test,config,vendor}/**/*"].exclude("rdoc").to_a
   spec.files += %w[ Rakefile README LICENSE CHANGES .document ] 
-  spec.test_files = FileList["{test/unit,test/integration}/*"]
+  spec.test_files = FileList["test/unit/*"]
   spec.has_rdoc = true
   spec.extra_rdoc_files = %w[ README CHANGES LICENSE ]
   spec.rdoc_options = rdoc_options

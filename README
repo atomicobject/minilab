@@ -48,7 +48,7 @@ The adventurous may also want to look at the included system tests for the devic
 
 == Tests
 
-The minilab extension comes with unit, integration, and system tests. The unit tests stress individual units. The integration and system tests represent real use cases for the software; in the case of integration tests, the hardware is mocked out whereas the hardware is not mocked during system tests. This means that unit and integration tests can be run without the hardware plugged in, but system tests require the hardware. Even though there is some overlap between integration and system tests, integration tests made it easier for me to safely develop new features without having bulky hardware plugged in all the time.
+The minilab extension comes with unit and system tests. The unit tests stress individual units and can run without any hardware plugged in. The system tests represent real use cases for the software when plugged into hardware.
 
 See the end of the document of this document for an outline of how a miniLAB and DB37 connector should be set up in order to run the system tests.
 
@@ -60,14 +60,12 @@ See the end of the document of this document for an outline of how a miniLAB and
 
 * Reading analog values only supports single-ended mode. As you can probably guess, I didn't need differential mode, so I didn't add support for it.
 
-In any case, contact me if you'd like me to implement any of this functionality. Add functionality yourself is always possible and may be quicker than waiting for me to do it.
-
 == Contact information
 Matt Fletcher
 
 Developer
 
-Atomic Object, LLC
+Atomic Object LLC
 
 fletcher@atomicobject.com
 

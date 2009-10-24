@@ -1,6 +1,6 @@
 class DigitalConfiguration #:nodoc:
   include MinilabConstants
-  constructor :minilab_hardware, :result_verifier
+  constructor :minilab_wrapper
 
   PORTS = [:porta, :portb, :portcl, :portch]
   LIBRARY_PORT_NAMES = {
@@ -11,12 +11,10 @@ class DigitalConfiguration #:nodoc:
   }
 
   def setup
-    @port_status = {}
-    PORTS.each { |port| @port_status[port] = :not_configured }
-  end
-
-  def get_valid_ports
-    PORTS
+    @port_status = PORTS.inject({}) do |port_status, port|
+      port_status[port] = :not_configured
+      port_status
+    end
   end
 
   def configure_port_for_input(port)
@@ -37,27 +35,19 @@ class DigitalConfiguration #:nodoc:
   
   private
   def is_port_recognized?(port)
-    if get_valid_ports.include?(port)
-      true
-    else
-      raise "Port #{port} is not valid."
-    end
+    raise "Port #{port} is not valid." unless PORTS.include?(port)
   end
 
   def configure_port(port, direction)
     is_port_recognized?(port)
 
-    result = @minilab_hardware.configure_port(:direction => direction, :port => LIBRARY_PORT_NAMES[port])
-    @result_verifier.verify(result)
-
+    @minilab_wrapper.configure_port(:direction => direction, :port => LIBRARY_PORT_NAMES[port])
     @port_status[port] = direction
     true
   end
 
   def check_port_status(port, status)
     is_port_recognized?(port)
-
-    return false unless @port_status[port] == status
-    true
+    @port_status[port] == status ? true : false
   end
 end

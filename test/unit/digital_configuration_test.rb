@@ -4,68 +4,28 @@ class DigitalConfigurationTest < Test::Unit::TestCase
   include MinilabConstants
 
   def setup
-    mox = create_mocks(:minilab_hardware, :result_verifier)
+    mox = create_mocks(:minilab_wrapper)
     @target = DigitalConfiguration.new(mox)
-
-    @good_ports = [:porta, :portb, :portcl, :portch]
-    @port_to_library_port_mapping = {
-      :porta => FIRSTPORTA,
-      :portb => FIRSTPORTB,
-      :portcl => FIRSTPORTCL,
-      :portch => FIRSTPORTCH
-    }
-
-    @bad_ports = [nil, :portd, :portttt, "ibm"]
   end
 
-  def expect_configure_input_and_verification
-    result = { :hey => "you" }
-
-    @good_ports.each do |port|
-      expected_configuration = { :direction => DIGITALIN, :port => @port_to_library_port_mapping[port] }
-      @minilab_hardware.expects.configure_port(expected_configuration).returns(result)
-      @result_verifier.expects.verify(result)
+  should "configure known ports for input" do
+    good_ports.each do |port|
+      expected_configuration = { :direction => DIGITALIN, :port => port_to_library_port_mapping[port] }
+      @minilab_wrapper.expects.configure_port(expected_configuration).returns "you"
     end
-  end
 
-  def expect_configure_output_and_verification
-    result = { :woo => "boo" }
-
-    @good_ports.each do |port|
-      expected_configuration = { :direction => DIGITALOUT, :port => @port_to_library_port_mapping[port] }
-      @minilab_hardware.expects.configure_port(expected_configuration).returns(result)
-      @result_verifier.expects.verify(result)
-    end
-  end
-
-  def check_error_for_all_bad_ports(method_to_test)
-    @bad_ports.each do |bad_port|
-      assert_raise(RuntimeError) { @target.send(method_to_test, bad_port) }
-    end
-  end
-
-  should "know the valid ports" do
-    expected_ports = [:porta, :portb, :portcl, :portch]
-    actual_ports = @target.get_valid_ports
-
-    assert_equal expected_ports.size, actual_ports.size
-    expected_ports.each_with_index do |port, index|
-      assert_equal port, actual_ports[index]
-    end
-  end
-  
-  should "configure a port for input" do
-    expect_configure_input_and_verification
-
-    @good_ports.each do |port|
+    good_ports.each do |port|
       assert_equal true, @target.configure_port_for_input(port)
     end
   end
   
-  should "configure a port for output" do
-    expect_configure_output_and_verification
+  should "configure known ports for output" do
+    good_ports.each do |port|
+      expected_configuration = { :direction => DIGITALOUT, :port => port_to_library_port_mapping[port] }
+      @minilab_wrapper.expects.configure_port(expected_configuration).returns "boo"
+    end
 
-    @good_ports.each do |port|
+    good_ports.each do |port|
       assert_equal true, @target.configure_port_for_output(port)
     end
   end
@@ -79,49 +39,31 @@ class DigitalConfigurationTest < Test::Unit::TestCase
   end
 
   should "return false when each of the ports has not been configured for input yet and a client asks if it has" do
-    @good_ports.each do |port|
+    good_ports.each do |port|
       assert_equal false, @target.is_port_configured_for_input?(port)
     end
   end
 
   should "return false when each of the ports has not been configured for output yet and a client asks if it has" do
-    @good_ports.each do |port|
+    good_ports.each do |port|
       assert_equal false, @target.is_port_configured_for_output?(port)
     end
   end
 
   should "return the input configuration status of a port when asked" do
-    result = {:a => "b"}
-    expected_configuration = { :direction => DIGITALIN, :port => @port_to_library_port_mapping[:porta] }
-    @minilab_hardware.expects.configure_port(expected_configuration).returns(result)
-    @result_verifier.expects.verify(result)
+    expected_configuration = { :direction => DIGITALIN, :port => port_to_library_port_mapping[:porta] }
+    @minilab_wrapper.expects.configure_port(expected_configuration).returns true
 
     @target.configure_port_for_input(:porta)
     assert_equal true, @target.is_port_configured_for_input?(:porta)
-    
-    expected_configuration = { :direction => DIGITALIN, :port => @port_to_library_port_mapping[:portch] }
-    @minilab_hardware.expects.configure_port(expected_configuration).returns(result)
-    @result_verifier.expects.verify(result)
-
-    @target.configure_port_for_input(:portch)
-    assert_equal true, @target.is_port_configured_for_input?(:portch)
   end
   
   should "return the output configuration status of a port when asked" do
-    result = {:keyboard => "mouse"}
-    expected_configuration = { :direction => DIGITALOUT, :port => @port_to_library_port_mapping[:portb] }
-    @minilab_hardware.expects.configure_port(expected_configuration).returns(result)
-    @result_verifier.expects.verify(result)
+    expected_configuration = { :direction => DIGITALOUT, :port => port_to_library_port_mapping[:portb] }
+    @minilab_wrapper.expects.configure_port(expected_configuration).returns true
 
     @target.configure_port_for_output(:portb)
     assert_equal true, @target.is_port_configured_for_output?(:portb)
-    
-    expected_configuration = { :direction => DIGITALOUT, :port => @port_to_library_port_mapping[:portcl] }
-    @minilab_hardware.expects.configure_port(expected_configuration).returns(result)
-    @result_verifier.expects.verify(result)
-
-    @target.configure_port_for_output(:portcl)
-    assert_equal true, @target.is_port_configured_for_output?(:portcl)
   end
   
   should "raise an error if you pass is_port_configured_for_input? an invalid port" do
@@ -130,5 +72,29 @@ class DigitalConfigurationTest < Test::Unit::TestCase
   
   should "raise an error if you pass is_port_configured_for_output? an invalid port" do
     check_error_for_all_bad_ports(:is_port_configured_for_output?)
+  end
+
+  private
+  def good_ports
+    [:porta, :portb, :portcl, :portch]
+  end
+
+  def bad_ports
+    [nil, :portd, :portttt, "ibm"]
+  end
+
+  def port_to_library_port_mapping
+    {
+      :porta => FIRSTPORTA,
+      :portb => FIRSTPORTB,
+      :portcl => FIRSTPORTCL,
+      :portch => FIRSTPORTCH
+    }
+  end
+
+  def check_error_for_all_bad_ports(method_to_test)
+    bad_ports.each do |bad_port|
+      assert_raise(RuntimeError) { @target.send(method_to_test, bad_port) }
+    end
   end
 end
