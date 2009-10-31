@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/config/environment")
-require 'rake/testtask'
-require 'rake/rdoctask'
-require 'rake/gempackagetask'
+require "rake/testtask"
+require "rake/rdoctask"
+require "rubygems/package_task"
 
 namespace :test do
   desc "Run the unit tests (doesn't require hardware)"
@@ -39,16 +39,21 @@ gem_spec = Gem::Specification.new do |spec|
   spec.homepage = "http://minilab.rubyforge.org"
   spec.rubyforge_project = "minilab"
   spec.platform = Gem::Platform::CURRENT
-  spec.summary = "Ruby interface to Measurement Computing's miniLAB 1008"
   spec.files = FileList["{lib,test,config,vendor}/**/*"].exclude("rdoc").to_a
   spec.files += %w[ Rakefile README LICENSE CHANGES ] 
   spec.test_files = FileList["test/unit/*"]
   spec.has_rdoc = true
   spec.extra_rdoc_files = %w[ README CHANGES LICENSE ]
   spec.rdoc_options = rdoc_options
+
+  # Yup, that's right, I'm consciously bypassing the warning mechanisms
+  # for summary and description. Why? Because there's nothing else that
+  # needs to be said beyond this one line.
+  spec.summary = "Ruby interface to Measurement Computing's miniLAB 1008"
+  spec.description = "#{spec.summary} "
 end 
   
-Rake::GemPackageTask.new(gem_spec) do |pkg|
+Gem::PackageTask.new(gem_spec) do |pkg|
   pkg.need_tar = true
   pkg.need_zip = true
 end
