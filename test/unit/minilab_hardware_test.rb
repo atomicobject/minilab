@@ -1,47 +1,14 @@
 require File.expand_path(File.dirname(__FILE__)) + "/../test_helper"
 
-# The intent of this test is to assert some basic properties on the extension.
-# Typically I would not check these things, but this class is made from C code.
-# Even though it's easy to create Ruby constants, methods, etc. with Ruby's C
-# support, it's still more work than it takes in Ruby syntax. So here I'm
-# trying to show that the stuff we expect to be there is actually there. It's
-# also here to help pinpoint any problems that may not show up until system test
-# time.
-#
-# Outside of the tests for checking hash parameters, I'm willing to discuss
-# whether maintaining this set of tests is truly worthwhile. I may change my
-# mind.
+# Not many tests for this class, since there isn't much behavior outside of
+# calling into the minilab library. I could probably figure out another way
+# to unit test those calls, but I don't believe there would be much value
+# in brittle tests for code that is already covered by system tests.
 class MinilabHardwareTest < Test::Unit::TestCase
   include MinilabConstants
 
   def setup
     @target = MinilabHardware.new
-  end
-
-  should "have the expected methods" do
-    expected_methods =
-    [ 
-      :setup_error_handling,
-      :declare_revision,
-      :get_revision,
-      :get_error_string,
-
-      :configure_auxport,
-      :configure_port,
-
-      :read_analog,
-      :read_digital_pin,
-      :read_auxport,
-      :read_port,
-
-      :write_analog,
-      :write_digital_pin,
-      :write_auxport,
-    ]
-
-    expected_methods.each do |method|
-      assert @target.respond_to?(method), "Minilab hardware object does not respond to #{method.to_s}"
-    end
   end
 
   should "raise an error if auxport configuration isn't given the correct hash parameters" do

@@ -78,8 +78,6 @@ class MinilabDriver < Systir::LanguageDriver
   private
   def expect_read_analog(channel, volts)
     input = @minilab.read_analog(channel)
-
-    assert_in_delta(volts, input, GOOD_DELTA,
-      "Input voltage was not ~#{volts} volts")
+    assert_in_delta(volts, input, GOOD_DELTA, "Input voltage was not ~#{volts} volts")
   end
 end
