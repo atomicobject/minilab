@@ -2,7 +2,7 @@
 
 minilab is a Ruby library for Measurement Computing's miniLAB 1008 device. The minilab library provides a simple interface to several of the miniLAB 1008's analog and digital IO functions. I've used the miniLAB to control the input and examine the output from our embedded devices; the minilab library allowed us to use automated system testing tools for Ruby.
 
-minilab is not guaranteed to work with other Measurement Computing devices, but could be extended to do so.
+minilab does not work with other Measurement Computing devices, but could be extended to do so.
 
 == Installation
 
