@@ -72,7 +72,6 @@ namespace :doc do
 end
 
 namespace :release do
-  desc "Upload rdoc and homepage to Rubyforge"
   task :upload_doc => 'doc:rerdoc' do
     destination = "rubyforge.org:/var/www/gforge-projects/minilab/"
     %w[ index.html minilab.jpg ].each do |file|
