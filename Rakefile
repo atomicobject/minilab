@@ -71,12 +71,13 @@ namespace :doc do
   end
 end
 
+# This task should go away once we get a GitHub page that can serve
+# as this project's homepage.
 namespace :release do
-  task :upload_doc => 'doc:rerdoc' do
+  task :upload_doc do
     destination = "rubyforge.org:/var/www/gforge-projects/minilab/"
     %w[ index.html minilab.jpg ].each do |file|
       sh "scp homepage/#{file} #{destination}"
     end
-    sh "scp -r rdoc #{destination}"
   end
 end
