@@ -4,6 +4,9 @@ minilab is a Ruby library for Measurement Computing's miniLAB 1008 device. The m
 
 minilab does not work with other Measurement Computing devices, but could be extended to do so.
 
+=== FFI
+The minilab gem now uses FFI to communicate with the native MCC library. The previous release of this gem required a native extension, but FFI has alleviated the need for this.
+
 == Installation
 
 1. Install the minilab gem onto your system or unpack it into a local directory in your project. Install Measurement Computing's Universal Library and InstaCal software; both come on CDs with the device.
@@ -11,9 +14,6 @@ minilab does not work with other Measurement Computing devices, but could be ext
 1. Plug in the device and then fire up the InstaCal software. Go to Install -> Configure in the menus and the Custom Serial Number to 253, No. of Channels to 8 Single Ended, and Trigger Source to DIO0. Use the Flash LED button to ensure that InstaCal can communicate with the device (I've never had a problem with this). Although I don't think the Custom Serial Number and Trigger Source make much difference to my library, the No. of Channels is important (see Known limitations below).
 
 1. That should be it---you should now be able to require 'lib/minilab,' create a minilab object, and connect to it. If you can't, please contact me! I've only installed this on a limited number of computers, so I'd like to hear about problems with the library installation, gem installation, LOAD_PATH, etc.
-
-=== FFI
-The minilab gem now uses FFI to communicate with the native MCC library. The previous release of this gem required a native extension, but FFI has alleviated the need for this.
 
 == Usage
 === Build and connect
