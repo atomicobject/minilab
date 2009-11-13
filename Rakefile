@@ -28,7 +28,7 @@ desc "Run the unit tests"
 task :default => %w[ test:units ]
 
 def rdoc_options
-  %w[ --line-numbers --inline-source --main README --title minilab ]
+  %w[ --line-numbers --inline-source --main README.rdoc --title minilab ]
 end
 
 gem_spec = Gem::Specification.new do |spec|
@@ -40,10 +40,10 @@ gem_spec = Gem::Specification.new do |spec|
   spec.rubyforge_project = "minilab"
   spec.platform = Gem::Platform::CURRENT
   spec.files = FileList["{lib,test,config,vendor}/**/*"].exclude("rdoc").to_a
-  spec.files += %w[ Rakefile README LICENSE CHANGES .document ] 
+  spec.files += %w[ Rakefile README.rdoc LICENSE CHANGES .document ] 
   spec.test_files = FileList["test/unit/*"]
   spec.has_rdoc = true
-  spec.extra_rdoc_files = %w[ README CHANGES LICENSE ]
+  spec.extra_rdoc_files = %w[ README.rdoc CHANGES LICENSE ]
   spec.rdoc_options = rdoc_options
 
   # Yup, that's right, I'm consciously bypassing the warning mechanisms
@@ -67,7 +67,7 @@ namespace :doc do
     rdoc.rdoc_dir = "rdoc"
     rdoc.title = "minilab: Ruby library for the miniLAB 1008"
     rdoc.options = rdoc_options
-    rdoc.rdoc_files.include("lib/minilab.rb", "README", "CHANGES", "LICENSE")
+    rdoc.rdoc_files.include("lib/minilab.rb", "README.rdoc", "CHANGES", "LICENSE")
   end
 end
 
