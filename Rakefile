@@ -70,14 +70,3 @@ namespace :doc do
     rdoc.rdoc_files.include("lib/minilab.rb", "README.rdoc", "CHANGES", "LICENSE")
   end
 end
-
-# This task should go away once we get a GitHub page that can serve
-# as this project's homepage.
-namespace :release do
-  task :upload_doc do
-    destination = "rubyforge.org:/var/www/gforge-projects/minilab/"
-    %w[ index.html minilab.jpg ].each do |file|
-      sh "scp homepage/#{file} #{destination}"
-    end
-  end
-end
