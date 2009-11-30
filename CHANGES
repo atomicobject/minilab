@@ -1,3 +1,7 @@
+== 1.1.1
+* Using bundler to package what gems we can. Not sure yet how to bundle ffi,
+  since we need a platform-specific gem.
+
 == 1.1.0
 * Conversion from native extension to FFI
 * Upgraded diy, constructor, and hardmock to their latest versions
