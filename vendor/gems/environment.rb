@@ -12,6 +12,10 @@ module Bundler
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/constructor-1.0.3/lib")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diy-1.1.2/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diy-1.1.2/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rake-0.8.7/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/rake-0.8.7/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ffi-0.5.4-x86-mswin32/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/ffi-0.5.4-x86-mswin32/lib")
 
   @gemfile = "#{dir}/../../Gemfile"
 
@@ -22,6 +26,10 @@ module Bundler
   @bundled_specs["constructor"].loaded_from = "#{dir}/specifications/constructor-1.0.3.gemspec"
   @bundled_specs["diy"] = eval(File.read("#{dir}/specifications/diy-1.1.2.gemspec"))
   @bundled_specs["diy"].loaded_from = "#{dir}/specifications/diy-1.1.2.gemspec"
+  @bundled_specs["rake"] = eval(File.read("#{dir}/specifications/rake-0.8.7.gemspec"))
+  @bundled_specs["rake"].loaded_from = "#{dir}/specifications/rake-0.8.7.gemspec"
+  @bundled_specs["ffi"] = eval(File.read("#{dir}/specifications/ffi-0.5.4-x86-mswin32.gemspec"))
+  @bundled_specs["ffi"].loaded_from = "#{dir}/specifications/ffi-0.5.4-x86-mswin32.gemspec"
 
   def self.add_specs_to_loaded_specs
     Gem.loaded_specs.merge! @bundled_specs
