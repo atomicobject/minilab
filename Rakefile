@@ -7,7 +7,7 @@ desc "Clean the project of build artifacts"
 task :clean => :clobber_package
 
 desc "Run the unit tests"
-task :default => %w[ test:units ]
+task :default => "test:units"
 
 namespace :test do
   desc "Run the unit tests (doesn't require hardware)"
