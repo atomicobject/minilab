@@ -1,8 +1,7 @@
 == 1.1.1
 * Lots of little things changed as part of the Rubyforge -> Gemcutter/GitHub/rdoc.info migration
   minilab's public interface has not changed.
-* Using bundler to package what gems we can. Not sure yet how to bundle ffi,
-  since we need a platform-specific gem.
+* Using bundler to package what gems.
 
 == 1.1.0
 * Conversion from native extension to FFI
