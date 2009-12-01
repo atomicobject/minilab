@@ -3,6 +3,7 @@ disable_system_gems
 
 source "http://gemcutter.org"
 
+gem "hardmock", "1.3.7", :only => :test
 gem "constructor", "1.0.3"
 gem "diy", "1.1.2"
 
