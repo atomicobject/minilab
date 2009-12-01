@@ -10,8 +10,8 @@ module Bundler
 
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/constructor-1.0.2/bin")
   $LOAD_PATH.unshift File.expand_path("#{dir}/gems/constructor-1.0.2/lib")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diy-1.1.1/bin")
-  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diy-1.1.1/lib")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diy-1.1.2/bin")
+  $LOAD_PATH.unshift File.expand_path("#{dir}/gems/diy-1.1.2/lib")
 
   @gemfile = "#{dir}/../../Gemfile"
 
@@ -20,8 +20,8 @@ module Bundler
   @bundled_specs = {}
   @bundled_specs["constructor"] = eval(File.read("#{dir}/specifications/constructor-1.0.2.gemspec"))
   @bundled_specs["constructor"].loaded_from = "#{dir}/specifications/constructor-1.0.2.gemspec"
-  @bundled_specs["diy"] = eval(File.read("#{dir}/specifications/diy-1.1.1.gemspec"))
-  @bundled_specs["diy"].loaded_from = "#{dir}/specifications/diy-1.1.1.gemspec"
+  @bundled_specs["diy"] = eval(File.read("#{dir}/specifications/diy-1.1.2.gemspec"))
+  @bundled_specs["diy"].loaded_from = "#{dir}/specifications/diy-1.1.2.gemspec"
 
   def self.add_specs_to_loaded_specs
     Gem.loaded_specs.merge! @bundled_specs

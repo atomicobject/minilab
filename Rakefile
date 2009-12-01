@@ -3,10 +3,16 @@ require "rake/testtask"
 require "rake/rdoctask"
 require "rubygems/package_task"
 
+desc "Clean the project of build artifacts"
+task :clean => :clobber_package
+
+desc "Run the unit tests"
+task :default => %w[ test:units ]
+
 namespace :test do
   desc "Run the unit tests (doesn't require hardware)"
   Rake::TestTask.new(:units) do |t|
-    t.pattern = 'test/unit/**/*_test.rb'
+    t.pattern = "test/unit/**/*_test.rb"
     t.verbose = true
   end
 
@@ -24,16 +30,13 @@ namespace :test do
   task :all => [:units, :system]
 end
 
-desc "Run the unit tests"
-task :default => %w[ test:units ]
-
 def rdoc_options
   %w[ --line-numbers --inline-source --main README.rdoc --title minilab ]
 end
 
 gem_spec = Gem::Specification.new do |spec|
   spec.name = "minilab"
-  spec.version = "1.1.0"
+  spec.version = "1.1.1"
   spec.author = "Matt Fletcher - Atomic Object"
   spec.email = "fletcher@atomicobject.com"
   spec.homepage = "http://atomicobject.github.com/minilab"
@@ -57,9 +60,6 @@ Gem::PackageTask.new(gem_spec) do |pkg|
   pkg.need_tar = true
   pkg.need_zip = true
 end
-
-desc "Clean the project of build artifacts"
-task :clean => :clobber_package
 
 namespace :doc do
   desc "Generate RDoc documentation"
