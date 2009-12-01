@@ -6,7 +6,7 @@ unless $environment_already_defined
   $LOAD_PATH << "#{APP_ROOT}/vendor/mcc"
   $LOAD_PATH << "#{APP_ROOT}/lib"
   require "#{APP_ROOT}/vendor/gems/environment"
-  %w[ ffi constructor diy ].each do |lib| require lib end
+  Bundler.require_env :production
 
   require "minilab_constants"
   Dir["#{APP_ROOT}/lib/*.rb"].reject do |file|
