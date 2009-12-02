@@ -1,17 +1,12 @@
-unless $environment_already_defined
-  $environment_already_defined = true
+APP_ROOT = File.expand_path(File.dirname(__FILE__) + "/..")
 
-  APP_ROOT = File.expand_path(File.dirname(__FILE__) + "/..")
+$LOAD_PATH << "#{APP_ROOT}/vendor/mcc"
+$LOAD_PATH << "#{APP_ROOT}/lib"
+require "#{APP_ROOT}/vendor/gems/environment"
 
-  $LOAD_PATH << "#{APP_ROOT}/vendor/mcc"
-  $LOAD_PATH << "#{APP_ROOT}/lib"
-  require "#{APP_ROOT}/vendor/gems/environment"
-  Bundler.require_env :production
-
-  require "minilab_constants"
-  Dir["#{APP_ROOT}/lib/*.rb"].reject do |file|
-    file =~ /minilab_constants/
-  end.each do |file|
-    require file
-  end
+require "minilab_constants"
+Dir["#{APP_ROOT}/lib/*.rb"].reject do |file|
+  file =~ /minilab_constants/
+end.each do |file|
+  require file
 end

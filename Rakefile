@@ -1,4 +1,3 @@
-require File.expand_path(File.dirname(__FILE__) + "/config/environment")
 require "rake/testtask"
 require "rake/rdoctask"
 require "rubygems/package_task"
