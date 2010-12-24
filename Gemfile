@@ -1,12 +1,3 @@
-clear_sources
-disable_system_gems
+source "http://rubygems.org"
 
-source "http://gemcutter.org"
-
-gem "hardmock", "1.3.7", :only => :test
-gem "constructor", "1.0.3"
-gem "diy", "1.1.2"
-
-# I had to add this one to the cache manually,
-# since bundler won't let me specify a platform.
-gem "ffi", "0.5.4"
+gemspec

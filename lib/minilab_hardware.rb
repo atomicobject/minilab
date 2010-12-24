@@ -1,3 +1,5 @@
+require "ffi"
+
 class MinilabHardware
   include MinilabConstants
 
