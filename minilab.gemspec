@@ -12,11 +12,11 @@ Gem::Specification.new do |s|
   s.summary     = %q{Ruby interface to Measurement Computing's miniLAB 1008}
   s.description = "#{s.summary} "
 
-  s.add_dependency "constructor", "~>1.0"
+  s.add_dependency "constructor", "~>2.0"
   s.add_dependency "diy", "~>1.1"
   s.add_dependency "ffi", "~>1.0"
 
-  s.add_development_dependency "hardmock", "~>1.3"
+  s.add_development_dependency "steak", "~>1.0"
 
   s.rubyforge_project = "minilab"
 
