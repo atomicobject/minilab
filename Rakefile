@@ -1,32 +1,17 @@
-require "rake/testtask"
 require "rake/rdoctask"
+require "rspec/core/rake_task"
 
-desc "Clean the project of build artifacts"
-task :clean => :clobber_package
+desc "Run the unit specs"
+task :default => "spec:unit"
 
-desc "Run the unit tests"
-task :default => "test:units"
-
-namespace :test do
-  desc "Run the unit tests (doesn't require hardware)"
-  Rake::TestTask.new(:units) do |t|
-    t.pattern = "test/unit/**/*_test.rb"
-    t.verbose = true
+namespace :spec do
+  RSpec::Core::RakeTask.new(:unit) do |t|
+    t.pattern = "spec/unit/**/*_spec.rb"
   end
 
-  desc "Run the system tests (requires hardware)"
-  task :system do
-    root = File.dirname(__FILE__)
-    $LOAD_PATH << "#{root}/vendor/systir"
-    SYSTEST_ROOT = root + "/test/system"
-    require "systir"
-    require "#{root}/test/system/minilab_driver.rb"
-    result = Systir::Launcher.new.find_and_run_all_tests(MinilabDriver, SYSTEST_ROOT)
-    raise "SYSTEM TESTS FAILED" unless result.passed?
+  RSpec::Core::RakeTask.new(:system) do |t|
+    t.pattern = "spec/system/**/*_spec.rb"
   end
-
-  desc "Run every suite of tests"
-  task :all => [:units, :system]
 end
 
 namespace :doc do
