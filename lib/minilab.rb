@@ -4,3 +4,4 @@ require "ffi"
 
 require_relative "minilab/minilab_constants"
 require_relative "minilab/connection_state"
+require_relative "minilab/minilab_context"
