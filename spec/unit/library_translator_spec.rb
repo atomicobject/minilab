@@ -72,10 +72,10 @@ describe Minilab::LibraryTranslator do
   end
 
   it "know the mapping between symbolic ports and ports in the library" do
-    assert_equal Minilab::MinilabConstants::FIRSTPORTA, subject.get_library_port(:porta), "wrong port"
-    assert_equal Minilab::MinilabConstants::FIRSTPORTB, subject.get_library_port(:portb), "wrong port"
-    assert_equal Minilab::MinilabConstants::FIRSTPORTCL, subject.get_library_port(:portcl), "wrong port"
-    assert_equal Minilab::MinilabConstants::FIRSTPORTCH, subject.get_library_port(:portch), "wrong port"
+    assert_equal FIRSTPORTA, subject.get_library_port(:porta), "wrong port"
+    assert_equal FIRSTPORTB, subject.get_library_port(:portb), "wrong port"
+    assert_equal FIRSTPORTCL, subject.get_library_port(:portcl), "wrong port"
+    assert_equal FIRSTPORTCH, subject.get_library_port(:portch), "wrong port"
   end
 
   it "raise an error if asked about the library port that does not exist" do

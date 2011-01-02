@@ -14,6 +14,7 @@ end
 RSpec.configure do |config|
   config.mock_framework = :rr
   config.include MinilabUnitSpecHelpers
+  config.include Minilab::MinilabConstants
 
   # Using both to minimize the amount of porting work.
   # most assertions are still test:unit based, but some
