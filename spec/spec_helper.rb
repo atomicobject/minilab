@@ -37,6 +37,35 @@ module MinilabAcceptanceSpecHelpers
       sleep 0.1
     end
   end
+
+  # Digital pin input and output methods
+  VALID_PINS.each do |pin|
+    define_method("digital_pin_#{pin}_should_be") do |value|
+      assert_equal value, @minilab.read_digital(pin)
+    end
+
+    define_method("write_digital_pin_#{pin}") do |value|
+      @minilab.write_digital(pin, value)
+    end
+  end
+
+  # Digital port read (entire bytes) methods
+  VALID_PORTS.each do |port|
+    define_method("digital_#{port}_should_be") do |value|
+      assert_equal value, @minilab.read_digital_byte(port)
+    end
+  end
+
+  # Configuration methods
+  VALID_PORTS.each do |port|
+    define_method("configure_#{port}_for_input") do
+      @minilab.configure_input_port(port)
+    end
+    
+    define_method("configure_#{port}_for_output") do
+      @minilab.configure_output_port(port)
+    end
+  end
 end
 
 RSpec.configure do |config|
