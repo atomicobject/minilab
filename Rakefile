@@ -12,6 +12,9 @@ namespace :spec do
   RSpec::Core::RakeTask.new(:acceptance) do |t|
     t.pattern = "spec/acceptance/**/*_spec.rb"
   end
+
+  desc "all tests"
+  task :all => %w[ spec:unit spec:acceptance ]
 end
 
 Rake::RDocTask.new do |rdoc|
