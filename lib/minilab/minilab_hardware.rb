@@ -1,4 +1,5 @@
 require "ffi"
+require "pathname"
 
 module Minilab
   class MinilabHardware
@@ -96,8 +97,9 @@ module Minilab
       create_error_or_value_hash(error, true)
     end
 
+    MCC_LIBRARY = Pathname.new(__FILE__).dirname.join("..", "..", "vendor", "mcc", "cbw32.dll")
     extend FFI::Library
-    ffi_lib "cbw32.dll"
+    ffi_lib MCC_LIBRARY
 
     attach_function "cbErrHandling", [:int, :int], :int
     attach_function "cbDeclareRevision", [:pointer], :int
