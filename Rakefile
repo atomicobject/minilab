@@ -9,8 +9,8 @@ namespace :spec do
     t.pattern = "spec/unit/**/*_spec.rb"
   end
 
-  RSpec::Core::RakeTask.new(:system) do |t|
-    t.pattern = "spec/system/**/*_spec.rb"
+  RSpec::Core::RakeTask.new(:acceptance) do |t|
+    t.pattern = "spec/acceptance/**/*_spec.rb"
   end
 end
 
