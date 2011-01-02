@@ -7,6 +7,8 @@ minilab does not work with other Measurement Computing devices, but could be ext
 === Ruby 1.9
 The minilab gem now requires Ruby 1.9 to run. The gem is built to run on the RubyInstaller package. minilab's public interface has not changed as part of the Ruby 1.9 migration.
 
+If you're looking for Ruby 1.8 support, try using the 1.1.0 version of the gem. The code is available in the git repository via the v1.1.0 tag.
+
 == Installation
 
 1. Install the minilab gem onto your system or unpack it into a local directory in your project. Install Measurement Computing's Universal Library and InstaCal software; both come on CDs with the device.
