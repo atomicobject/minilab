@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency "ffi", "~>1.0"
 
   s.add_development_dependency "steak", "~>1.0"
+  s.add_development_dependency "rr", "~>1.0"
 
   s.rubyforge_project = "minilab"
 

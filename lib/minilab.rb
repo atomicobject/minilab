@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__)) + "/../config/environment.rb"
+require_relative "../config/env.rb"
 
 # The main interface to the minilab library. Create one of these objects
 # using the +build+ class method. After you've created a minilab object,
