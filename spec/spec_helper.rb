@@ -56,6 +56,17 @@ module MinilabAcceptanceSpecHelpers
     end
   end
 
+  # DIOx input and output methods
+  0.upto(3) do |pin|
+    define_method("dio#{pin}_should_be") do |value|
+      assert_equal value, @minilab.read_digital("dio#{pin}")
+    end
+
+    define_method("write_dio#{pin}") do |value|
+      @minilab.write_digital("dio#{pin}", value)
+    end
+  end
+  
   # Configuration methods
   VALID_PORTS.each do |port|
     define_method("configure_#{port}_for_input") do
@@ -65,6 +76,11 @@ module MinilabAcceptanceSpecHelpers
     define_method("configure_#{port}_for_output") do
       @minilab.configure_output_port(port)
     end
+  end
+
+  # Other
+  def minilab_revision_should_be(revision)
+    assert_equal revision, @minilab.get_revision
   end
 end
 
