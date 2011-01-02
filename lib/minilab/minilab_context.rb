@@ -1,9 +1,10 @@
 require "diy"
 require "yaml"
+require "pathname"
 
 module Minilab
   class MinilabContext #:nodoc:
-    OBJECT_DEFINITION = File.dirname(__FILE__) + "/objects.yml"
+    OBJECT_DEFINITION = Pathname.new(__FILE__).dirname + "objects.yml"
 
     def build
       if not @context
