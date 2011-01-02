@@ -6,8 +6,6 @@ $LOAD_PATH << "#{APP_ROOT}/lib"
 require "constructor"
 
 require "minilab_constants"
-p Minilab.inspect
-puts Minilab.class
 Dir["#{APP_ROOT}/lib/*.rb"].reject do |file|
   file =~ /minilab_constants/
 end.each do |file|

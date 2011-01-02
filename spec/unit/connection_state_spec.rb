@@ -1,10 +1,6 @@
 require_relative "../spec_helper.rb"
 
-describe ConnectionState do
-  def setup
-    @target = ConnectionState.new
-  end
-
+describe Minilab::ConnectionState do
   it "default to an unconnected state" do
     assert_equal false, subject.connected?
   end

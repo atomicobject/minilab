@@ -1,4 +1,4 @@
-require_relative "../config/env.rb"
+require_relative "../lib/minilab"
 
 RSpec.configure do |config|
   config.expect_with :stdlib
