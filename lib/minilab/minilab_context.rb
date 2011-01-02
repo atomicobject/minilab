@@ -1,4 +1,5 @@
-require 'yaml'
+require "diy"
+require "yaml"
 
 module Minilab
   class MinilabContext #:nodoc:
