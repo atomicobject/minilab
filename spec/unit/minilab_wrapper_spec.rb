@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 describe Minilab::MinilabWrapper do
   before { @mox = create_mocks(:minilab_hardware) }
-  subject { Minilab::MinilabWrapper.new(@mox) }
+  subject { described_class.new(@mox) }
 
   it "forwards methods to the hardware and gives the result" do
     @minilab_hardware.razzle(1, 2, "three").returns({ :value => 5 })

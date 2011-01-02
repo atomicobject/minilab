@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 describe Minilab::DigitalAuxportIo do
   before { @mox = create_mocks(:minilab_wrapper) }
-  subject { Minilab::DigitalAuxportIo.new(@mox) }
+  subject { described_class.new(@mox) }
 
   it "read digital data from the screw terminals" do
     expected_configuration = { :direction => DIGITALIN, :pin => get_pin_number("DIO1") }

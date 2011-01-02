@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 describe Minilab::AnalogIo do
   before { @mox = create_mocks(:minilab_wrapper) }
-  subject { Minilab::AnalogIo.new(@mox) }
+  subject { described_class.new(@mox) }
 
   it "read analog data" do
     @minilab_wrapper.read_analog(2).returns 5.7
