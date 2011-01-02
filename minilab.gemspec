@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
 
   s.has_rdoc         = true
   s.extra_rdoc_files = %w[ README.rdoc CHANGES LICENSE ]
-  s.rdoc_options     = %w[ --line-numbers --inline-source --main README.rdoc --title minilab ]
+  s.rdoc_options     = %w[ --main README.rdoc --title minilab ]
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
