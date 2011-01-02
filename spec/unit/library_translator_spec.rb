@@ -25,7 +25,7 @@ describe Minilab::LibraryTranslator do
 
   it "raise an error when asked about a pin number that does not map to a port (such as the pins for ground, 5v +ve, DIO1..3, etc)" do
     [ 1, 2, "DIO0", "DIO2", nil, :thedude, 832].each do |bad_pin|
-      -> { subject.get_port_for_pin(bad_pin) }.to raise_error(RuntimeError)
+      -> { subject.get_port_for_pin(bad_pin) }.should raise_error(RuntimeError)
     end
   end
 
@@ -67,20 +67,20 @@ describe Minilab::LibraryTranslator do
 
   it "raise an error if the pin passed in to get_library_pin_number is invalid" do
     [20, 21, nil, 12, :heynow, "uba"].each do |bad_pin|
-      -> { subject.get_library_pin_number(bad_pin) }.to raise_error(RuntimeError)
+      -> { subject.get_library_pin_number(bad_pin) }.should raise_error(RuntimeError)
     end
   end
 
   it "know the mapping between symbolic ports and ports in the library" do
-    assert_equal FIRSTPORTA, subject.get_library_port(:porta), "wrong port"
-    assert_equal FIRSTPORTB, subject.get_library_port(:portb), "wrong port"
-    assert_equal FIRSTPORTCL, subject.get_library_port(:portcl), "wrong port"
-    assert_equal FIRSTPORTCH, subject.get_library_port(:portch), "wrong port"
+    assert_equal Minilab::MinilabConstants::FIRSTPORTA, subject.get_library_port(:porta), "wrong port"
+    assert_equal Minilab::MinilabConstants::FIRSTPORTB, subject.get_library_port(:portb), "wrong port"
+    assert_equal Minilab::MinilabConstants::FIRSTPORTCL, subject.get_library_port(:portcl), "wrong port"
+    assert_equal Minilab::MinilabConstants::FIRSTPORTCH, subject.get_library_port(:portch), "wrong port"
   end
 
   it "raise an error if asked about the library port that does not exist" do
     [:portd, :portci, "cigarette butt", nil].each do |bad_port|
-      -> { subject.get_library_port(bad_port) }.to raise_error(RuntimeError)
+      -> { subject.get_library_port(bad_port) }.should raise_error(RuntimeError)
     end
   end 
 end
