@@ -1,0 +1,1 @@
+lib/**/*.rb -r README.rdoc - CHANGES LICENSE
