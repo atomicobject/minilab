@@ -1,3 +1,7 @@
+== 2.0.1
+* converted a significant amount of documentation to yardoc format
+* some of Minilab's instance methods now return [true] instead of [whatever]
+
 == 2.0.0
 * minilab now requires Ruby 1.9 to run and is built for the RubyInstaller package.
   minilab's public interface has not changed.
