@@ -62,8 +62,8 @@ See the end of this document for an outline of how a miniLAB and DB37 connector 
 * Reading analog values only supports single-ended mode. As you can probably guess, I didn't need differential mode, so I didn't add support for it.
 
 == Contact information
-* Matt Fletcher <fletcher@atomicobject.com>
-* Atomic Object <http://atomicobject.com>
+* Matt Fletcher (mailto:fletcher@atomicobject.com)
+* Atomic Object (http://atomicobject.com)
 
 == Appendix
 === DB37 pin to port mapping
@@ -73,7 +73,7 @@ Pin:: Port
 26-29:: :portcl
 22-25:: :portch
 
-=== System test setup
+=== Acceptance test setup
 
 On top of the miniLAB:
 CH0 IN:: D/A OUT 1

@@ -3,9 +3,9 @@
   minilab's public interface has not changed.
 * Now using the latest and greatest bundler techniques for gem development.
 * Two libraries minilab used for testing (hardmock and systir) do not run on Ruby 1.9. Therefore, minilab now uses:
-** RSpec as a test harness
-** steak as an acceptance test harness
-** rr for mocking in unit tests
+  * RSpec as a test harness
+  * steak as an acceptance test harness
+  * rr for mocking in unit tests
 
 == 1.1.1
 * Lots of little things changed as part of the Rubyforge -> Gemcutter/GitHub/rdoc.info migration

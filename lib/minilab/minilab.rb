@@ -1,14 +1,17 @@
+# @author Matt Fletcher (fletcher@atomicobject.com)
 module Minilab
-  # Use this method to construct Minilab objects. The object will not yet
-  # be connected to the device.
+  # Constructs Minilab objects.
+  # @return [Minilab] an unconnected Minilab object. Use {Minilab#connect}
+  #  to connect it to the physical device.
   def self.build
     MinilabContext.new.build[:minilab]
   end
 
   # The main interface to the minilab library. Create one of these objects
-  # using the +Minilab.build+ method. After you've created a minilab object,
-  # use the +connect+ method to establish the connection to the device.
+  # using the {Minilab.build} method. After you've created a minilab object,
+  # use the {#connect} method to establish the connection to the device.
   # Minilab objects are not usable until they've been connected.
+  # @author Matt Fletcher (fletcher@atomicobject.com)
   class Minilab
     include MinilabConstants
     constructor :minilab_wrapper, :analog_io, :digital_auxport_io, :digital_port_io, :connection_state
@@ -24,11 +27,13 @@ module Minilab
       DigitalConfiguration::PORTS.each { |port| configure_input_port(port) }
     end
 
-    # Read from one of the eight analog channels (0 - 7) on top of the device.
+    # Read from one of the eight analog channels on top of the device.
     #
     # Single-ended mode is the only analog mode supported.
     #
-    # An error is raised if an invalid channel number is given.
+    # @param [Fixnum] channel the analog channel (0 - 7)
+    # @return [Float] the voltage
+    # @raise [RuntimeError] the channel number is invalid
     def read_analog(channel)
       ensure_connected_to_device
       @analog_io.read_analog(channel)
@@ -39,8 +44,10 @@ module Minilab
     #
     # Single-ended mode is the only analog mode supported.
     #
-    # An error is raised if an invalid channel number or an out-of-range
-    # voltage is given.
+    # @param [Fixnum] channel the analog channel (0 or 1)
+    # @param [Float] volts the voltage (0.0 - 5.0)
+    # @raise [RuntimeError] the channel number is invalid
+    # @raise [RuntimeError] the voltage is out of range
     def write_analog(channel, volts)
       ensure_connected_to_device
       @analog_io.write_analog(channel, volts)
@@ -48,9 +55,9 @@ module Minilab
 
     # Configure one of the DB37 ports for input.
     #
-    # Specify _port_ as a symbol. The available ports are <tt>:porta</tt>,
-    # <tt>:portb</tt>, <tt>:portcl</tt>, and <tt>:portch</tt>. An error is 
-    # raised if an invalid port is given.
+    # @param [Symbol] port the port. Valid ports are
+    #   :porta, :portb, :portcl, and :portch.
+    # @raise [RuntimeError] the port is invalid
     def configure_input_port(port)
       ensure_connected_to_device
       @digital_port_io.configure_input_port(port)
@@ -58,44 +65,40 @@ module Minilab
 
     # Configure one of the DB37 ports for output.
     #
-    # Specify _port_ as a symbol. The available ports are <tt>:porta</tt>,
-    # <tt>:portb</tt>, <tt>:portcl</tt>, and <tt>:portch</tt>. An error is
-    # raised if an invalid port is given.
+    # @param (see #configure_input_port)
+    # @raise (see #configure_input_port)
     def configure_output_port(port)
       ensure_connected_to_device
       @digital_port_io.configure_output_port(port)
     end
 
-    # Read a single bit from one of the digital pins.
+    # Read a single bit from one of the auxport pins (on the top of the
+    # device) or from a DB37 pin. Ensure the pin has been configured for
+    # input (see {#configure_input_port}) before using this method.
+    # auxport pins do not need to be configured.
     #
-    # If you'd like to read from one of the pins on the top of the device (the
-    # auxport pins), then specify the pin as a string with its label (e.g. 
-    # read_digital("DIO1")). Alternatively, if you'd like to read from one of
-    # the DB37 pins, specify the pin as the number it's labeled with (e.g.
-    # read_digital(13)).
-    #
-    # An error is raised if you specify a pin that doesn't exist or if you
-    # try to read from a DB37 pin on a port that is not configured for input.
-    # The digital pins on the top of the device do not need to be configured.
+    # @param [String, Fixnum] pin a String name of the auxport (e.g. "DIO1")
+    #   or a Fixnum DB37 pin number (e.g. 13)
+    # @return [Fixnum]
+    # @raise [RuntimeError] the given pin doesn't exist
+    # @raise [RuntimeError] the DB37 pin has not been configured for input
     def read_digital(pin)
       ensure_connected_to_device
       perform_digital_op(pin, :read, pin)
     end
     
-    # Write a single bit to one of the digital pins. _value_ must be an integer
-    # 1 or 0.
+    # Write a single bit to one of the auxport pins (on the top of the
+    # device) or to a DB37 pin. Ensure the pin has been configured for
+    # output (see {#configure_output_port}) before using this method.
+    # auxport pins do not need to be configured.
     #
-    # If you'd like to write to one of the pins on the top of the device (the
-    # auxport pins), then specify the pin as a string with its label (e.g. 
-    # write_digital("DIO2", 0)). Alternatively, if you'd like to write to one
-    # of the DB37 pins, specify the pin as the number it's labeled with (e.g. 
-    # write_digital(17, 1)).
-    #
-    # An error is raised if you specify a pin that doesn't exist or if you
-    # try to write to a DB37 pin on a port that is not configured for output.
-    # The digital pins on the top of the device do not need to be configured.
-    #
-    # Values above 1 are interpreted as 1; negative values raise an error.
+    # @param [String, Fixnum] pin a String name of the auxport (e.g. "DIO1")
+    #   or a Fixnum DB37 pin number (e.g. 13)
+    # @param [Fixnum] value the value (0 or 1) to write. values above 1 are
+    #   interpreted as 1.
+    # @raise [RuntimeError] the given pin doesn't exist
+    # @raise [RuntimeError] the DB37 pin has not been configured for input
+    # @raise [RuntimeError] a negative value is given
     def write_digital(pin, value)
       ensure_connected_to_device
       perform_digital_op(pin, :write, pin, value)
@@ -103,10 +106,8 @@ module Minilab
 
     # Read a byte from one of the DB37 ports.
     #
-    # Specify _port_ as a symbol. The available ports are <tt>:porta</tt>,
-    # <tt>:portb</tt>, <tt>:portcl</tt>, and <tt>:portch</tt>.
-    #
-    # An error is raised if an invalid port is given.
+    # @param (see #configure_input_port)
+    # @raise (see #configure_input_port)
     def read_digital_byte(port)
       ensure_connected_to_device
       @digital_port_io.read_port(port)
