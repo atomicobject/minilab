@@ -1,4 +1,3 @@
-require "rake/rdoctask"
 require "rspec/core/rake_task"
 
 desc "Run the unit specs"
@@ -15,11 +14,4 @@ namespace :spec do
 
   desc "all tests"
   task :all => %w[ spec:unit spec:acceptance ]
-end
-
-Rake::RDocTask.new do |rdoc|
-  rdoc.rdoc_dir = "rdoc"
-  rdoc.title = "minilab: Ruby library for the miniLAB 1008"
-  rdoc.options = %w[ --main README.rdoc --title minilab ]
-  rdoc.rdoc_files.include("lib/minilab.rb", "README.rdoc", "CHANGES", "LICENSE")
 end
