@@ -20,11 +20,13 @@ module Minilab
     # * Error reporting from MCC's universal library is set to print
     #   errors to standard out instead of popping up a Windows dialog.
     # * Each of the DB37 digital ports is setup for input.
+    # @return [true]
     def connect
       @minilab_wrapper.setup_error_handling(DONTPRINT, STOPALL)
       @minilab_wrapper.declare_revision(CURRENTREVNUM)
       @connection_state.connected = true
       DigitalConfiguration::PORTS.each { |port| configure_input_port(port) }
+      true
     end
 
     # Read from one of the eight analog channels on top of the device.
@@ -57,6 +59,7 @@ module Minilab
     #
     # @param [Symbol] port the port. Valid ports are
     #   :porta, :portb, :portcl, and :portch.
+    # @return [true]
     # @raise [RuntimeError] the port is invalid
     def configure_input_port(port)
       ensure_connected_to_device
@@ -66,6 +69,7 @@ module Minilab
     # Configure one of the DB37 ports for output.
     #
     # @param (see #configure_input_port)
+    # @return [true]
     # @raise (see #configure_input_port)
     def configure_output_port(port)
       ensure_connected_to_device
@@ -79,7 +83,7 @@ module Minilab
     #
     # @param [String, Fixnum] pin a String name of the auxport (e.g. "DIO1")
     #   or a Fixnum DB37 pin number (e.g. 13)
-    # @return [Fixnum]
+    # @return [Fixnum] the bit value
     # @raise [RuntimeError] the given pin doesn't exist
     # @raise [RuntimeError] the DB37 pin has not been configured for input
     def read_digital(pin)
@@ -96,6 +100,7 @@ module Minilab
     #   or a Fixnum DB37 pin number (e.g. 13)
     # @param [Fixnum] value the value (0 or 1) to write. values above 1 are
     #   interpreted as 1.
+    # @return [true]
     # @raise [RuntimeError] the given pin doesn't exist
     # @raise [RuntimeError] the DB37 pin has not been configured for input
     # @raise [RuntimeError] a negative value is given
@@ -107,6 +112,7 @@ module Minilab
     # Read a byte from one of the DB37 ports.
     #
     # @param (see #configure_input_port)
+    # @return [Fixnum] the byte value
     # @raise (see #configure_input_port)
     def read_digital_byte(port)
       ensure_connected_to_device

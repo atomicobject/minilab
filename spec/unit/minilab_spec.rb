@@ -19,7 +19,7 @@ describe Minilab::Minilab do
       @digital_port_io.configure_input_port(port)
     end
 
-    subject.connect
+    assert subject.connect
   end
 
   it "bomb out if trying to use a method but haven't connected yet" do
@@ -58,7 +58,7 @@ describe Minilab::Minilab do
     @connection_state.connected?.returns true
     @digital_auxport_io.write_digital('DIO3', 0).returns(true)
 
-    subject.write_digital('DIO3', 0)
+    assert subject.write_digital('DIO3', 0)
   end
 
   it "use the digital port object when the pin is a numbered pin for read_digital" do
