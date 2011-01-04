@@ -1,5 +1,5 @@
 module Minilab
-  class DigitalPortIo #:nodoc:
+  class DigitalPortIo #@private
     constructor :minilab_wrapper, :digital_configuration, :library_translator
 
     def configure_input_port(port)

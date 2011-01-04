@@ -1,5 +1,5 @@
 module Minilab
-  class ConnectionState
+  class ConnectionState #@private
     def initialize
       @connected = false
     end

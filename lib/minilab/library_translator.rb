@@ -1,5 +1,5 @@
 module Minilab
-  class LibraryTranslator #:nodoc:
+  class LibraryTranslator #@private
     include MinilabConstants
 
     def get_port_for_pin(pin)

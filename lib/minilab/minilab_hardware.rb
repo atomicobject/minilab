@@ -2,7 +2,7 @@ require "ffi"
 require "pathname"
 
 module Minilab
-  class MinilabHardware
+  class MinilabHardware #@private
     include MinilabConstants
 
     def setup_error_handling(reporting, handling)

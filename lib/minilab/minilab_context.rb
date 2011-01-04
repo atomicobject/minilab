@@ -3,7 +3,7 @@ require "yaml"
 require "pathname"
 
 module Minilab
-  class MinilabContext #:nodoc:
+  class MinilabContext #@private
     OBJECT_DEFINITION = Pathname.new(__FILE__).dirname + "objects.yml"
 
     def build

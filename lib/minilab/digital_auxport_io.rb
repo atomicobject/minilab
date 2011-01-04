@@ -1,5 +1,5 @@
 module Minilab
-  class DigitalAuxportIo #:nodoc:
+  class DigitalAuxportIo #@private
     constructor :minilab_wrapper
     include MinilabConstants
 

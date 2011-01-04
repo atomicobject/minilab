@@ -1,7 +1,8 @@
-# Lifted from cbw.h. Let's hope these don't change often.
-# Using revision number 5.90.
 module Minilab
-  module MinilabConstants
+  module MinilabConstants #@private
+    # Lifted from cbw.h. Let's hope these don't change often.
+    # Using revision number 5.90.
+
     CURRENTREVNUM = 5.90
 
     BOARDNUM = 0

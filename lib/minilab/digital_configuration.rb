@@ -1,5 +1,5 @@
 module Minilab
-  class DigitalConfiguration #:nodoc:
+  class DigitalConfiguration #@private
     include MinilabConstants
     constructor :minilab_wrapper
 

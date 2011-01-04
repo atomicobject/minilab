@@ -1,5 +1,5 @@
 module Minilab
-  class AnalogIo #:nodoc:
+  class AnalogIo #@private
     constructor :minilab_wrapper
 
     def read_analog(channel)

@@ -1,1 +1,1 @@
-lib/**/*.rb -r README.rdoc - CHANGES LICENSE
+lib/**/*.rb --no-private -r README.rdoc - CHANGES LICENSE

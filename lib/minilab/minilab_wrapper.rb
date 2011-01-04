@@ -1,5 +1,5 @@
 module Minilab
-  class MinilabWrapper #:nodoc:
+  class MinilabWrapper #@private
     constructor :minilab_hardware
 
     def method_missing(method, *argz)
